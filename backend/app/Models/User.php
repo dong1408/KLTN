@@ -53,4 +53,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function hasPermission($permission)
+    {
+        foreach ($this->roles as $role) {
+            if ($role->permissions->where('slug', $permission)->count() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
